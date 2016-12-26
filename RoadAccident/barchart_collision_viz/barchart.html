@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<!-- load D3js -->
+<script src="http://d3plus.org/js/d3.js"></script>
+
+<!-- load D3plus after D3js -->
+<script src="http://d3plus.org/js/d3plus.js"></script>
+
+<!-- create container element for visualization -->
+
+<style>
+ tspan {
+font-size: 13px;
+font-weight: bold;
+}
+
+#d3plus_graph_xlabel {
+font-size: 30px;
+font-weight: bold;
+}
+
+#d3plus_graph_ylabel {
+font-size: 30px;
+font-weight: bold;
+}
+
+text {
+font-size: 15px;
+}
+
+</style>
+
+</head>
+<body>
+
+
+<div id="viz"></div>
+
+<script>
+
+var data_ = [
+{"Count": 75, "Vehicle": "bus", "group" : "bus"},
+{"Count": 20, "Vehicle": "truck", "group" : "truck"},
+{"Count": 8, "Vehicle": "bus,bus", "group" : "bus,bus"},
+{"Count": 1, "Vehicle": "truck,bus", "group" : "truck,bus"},
+{"Count": 6, "Vehicle": "rickshaw,bus", "group" : "rickshaw,bus"},
+{"Count": 3, "Vehicle": "bus,truck", "group" : "bus,truck"},
+{"Count": 1, "Vehicle": "bus,rickshaw", "group" : "bus,rickshaw"},
+{"Count": 8, "Vehicle": "rickshaw", "group" : "rickshaw"},
+{"Count": 9, "Vehicle": "microbus", "group" : "microbus"},
+{"Count": 2, "Vehicle": "bus,tempo", "group" : "bus,tempo"},
+{"Count": 1, "Vehicle": "tempo,truck", "group" : "tempo,truck"},
+{"Count": 1, "Vehicle": "lorry", "group" : "lorry"},
+{"Count": 4, "Vehicle": "jeep,bus", "group" : "jeep,bus"},
+{"Count": 1, "Vehicle": "rickshaw,rickshaw", "group" : "rickshaw,rickshaw"},
+{"Count": 1, "Vehicle": "ambulance", "group" : "ambulance"},
+{"Count": 1, "Vehicle": "tempo", "group" : "tempo"},
+{"Count": 1, "Vehicle": "caravan,bus", "group" : "caravan,bus"}
+];
+
+  var visualization = d3plus.viz()
+    .container("#viz")
+    .data(data_)
+    .type("bar")
+    .id("group")
+    .x("Vehicle")
+    .y("Count")
+    .draw()
+</script>
+
+</body>
+</html>
