@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.mainBars rect{
+  shape-rendering: auto;
+  fill-opacity: 0;
+  stroke-width: 0.5px;
+  stroke: rgb(0, 0, 0);
+  stroke-opacity: 0;
+}
+.subBars{
+	shape-rendering:crispEdges;
+}
+.edges{
+	stroke:none;
+	fill-opacity:0.5;
+}
+</style>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+<script>
+
+var data=[['Female','Burning',1,1],
+['Female','Bus', 1,1],
+['Female','Fire',4,4],
+['Male','Fire',1,1],
+['Female','Hanging', 431,431],
+['Male','Hanging', 204,204],
+['Female','Jumped', 9,9],
+['Male','Jumped', 4,4],
+['Female','Jumped in front of Train', 9,9],
+['Male','Jumped in front of Train', 9,9],
+['Female','Jumping off', 1,1],
+['Male','Jumping off', 4,4],
+['Female','Jumping off building', 1,1],
+['Male','Jumping off building', 4,4],
+['Female','Jumping under the running train', 3,3],
+['Male','Jumping under the running train', 1,1],
+['Female','Jumping off river', 3,3],
+['Male','Jumping off river', 3,3],
+['Female','Not mentioned', 12,12],
+['Male','Not mentioned', 1,1],
+['Female','Poison', 158,158],
+['Male','Poison', 76,76],
+['Female','Setting fire', 11,11],
+['Male','Setting fire', 2,2],
+['Female','Shoot', 1,1],
+['Male','Shoot', 11,11],
+['Male','Slitting throat', 5,5],
+['Male','Stabbing himself', 2,2],
+['Female','Setting fire', 11,11],
+['Male','Setting fire', 2,2],
+
+];
+var color ={Shoot:"#3366CC", Male:"#DC3912",  Lite:"#FF9900", Medium:"#109618", Female:"#990099", Small:"#0099C6"};
+var svg = d3.select("body").append("svg").attr("width", 960).attr("height", 800);
+var g = svg.append("g").attr("transform","translate(200,50)");
+
+var bp=viz.bP()
+		.data(data)
+		.min(12)
+		.pad(1)
+		.height(700)
+		.width(500)
+		.barSize(35)
+		.fill(d=>color[d.primary]);
+			
+g.call(bp);
+
+g.selectAll(".mainBars")
+	.on("mouseover",mouseover)
+	.on("mouseout",mouseout)
+
+g.selectAll(".mainBars").append("text").attr("class","label")
+	.attr("x",d=>(d.part=="primary"? -30: 30))
+	.attr("x",d=>(d.part=="primary"? -30: 30))
+	.attr("y",d=>+6)
+	.text(d=>d.key)
+	.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+	
+g.selectAll(".mainBars").append("text").attr("class","perc")
+	.attr("x",d=>(d.part=="primary"? -100: 80))
+	.attr("y",d=>+6)
+	.text(function(d){ return d3.format("0.0%")(d.percent)})
+	.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+
+function mouseover(d){
+	bp.mouseover(d);
+	g.selectAll(".mainBars")
+	.select(".perc")
+	.text(function(d){ return d3.format("0.0%")(d.percent)})
+}
+function mouseout(d){
+	bp.mouseout(d);
+	g.selectAll(".mainBars")
+		.select(".perc")
+	.text(function(d){ return d3.format("0.0%")(d.percent)})
+}
+d3.select(self.frameElement).style("height", "800px");
+</script>
+</body>
+</html>
