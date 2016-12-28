@@ -102,7 +102,6 @@ microbus	gazipur	1.0
 microbus	habiganj	1.0
 microbus	narayanganj	1.0
 microbus	null	2.0
-microbus	rickshaw
 microbus	barisal	1.0
 microbus	chuadanga	1.0
 microbus	dhaka	3.0
@@ -123,12 +122,10 @@ jeep,bus	dinajpuri	1.0
 jeep,bus	manikganj	1.0
 jeep,bus	nilphamari	1.0
 jeep,bus	sirajganj	1.0
-rickshaw,bus
 rickshaw,bus	dhaka	1.0
 rickshaw,bus	rajshahi	2.0
 rickshaw,bus	sylhet	1.0
 rickshaw,bus	tangail	2.0
 tempo,truck	dhaka	1.0
-tempo,truck	tempo
 tempo,truck	khulna	1.0
 caravan,bus	tangail	1.0
