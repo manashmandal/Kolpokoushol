@@ -1,0 +1,19 @@
+[
+{"count_sum": 75, "Vehicle": "bus", "group" : "bus"},
+{"count_sum": 20, "Vehicle": "truck", "group" : "truck"},
+{"count_sum": 8, "Vehicle": "bus,bus", "group" : "bus,bus"},
+{"count_sum": 1, "Vehicle": "truck,bus", "group" : "truck,bus"},
+{"count_sum": 6, "Vehicle": "rickshaw,bus", "group" : "rickshaw,bus"},
+{"count_sum": 3, "Vehicle": "bus,truck", "group" : "bus,truck"},
+{"count_sum": 1, "Vehicle": "bus,rickshaw", "group" : "bus,rickshaw"},
+{"count_sum": 8, "Vehicle": "rickshaw", "group" : "rickshaw"},
+{"count_sum": 9, "Vehicle": "microbus", "group" : "microbus"},
+{"count_sum": 2, "Vehicle": "bus,tempo", "group" : "bus,tempo"},
+{"count_sum": 1, "Vehicle": "tempo,truck", "group" : "tempo,truck"},
+{"count_sum": 1, "Vehicle": "lorry", "group" : "lorry"},
+{"count_sum": 4, "Vehicle": "jeep,bus", "group" : "jeep,bus"},
+{"count_sum": 1, "Vehicle": "rickshaw,rickshaw", "group" : "rickshaw,rickshaw"},
+{"count_sum": 1, "Vehicle": "ambulance", "group" : "ambulance"},
+{"count_sum": 1, "Vehicle": "tempo", "group" : "tempo"},
+{"count_sum": 1, "Vehicle": "caravan,bus", "group" : "caravan,bus"}
+]
