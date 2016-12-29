@@ -143,7 +143,7 @@ var data=[[' 13 to 18','abducted;threatened',1,1],
 ];
 
 var color ={'8 to 12':"#3366CC", '51 to 80':"#DC3912",  '13 to 18':"#FF9900", '36 to 50':"#109618", '27 to 35':"#990099", '27 to 35':"#0099C6", '19 to 26':"#fff111"};
-var svg = d3.select("body").append("svg").attr("width", 1250).attr("height", 900);
+var svg = d3.select("body").append("svg").attr("width", 1250).attr("height", 1000);
 var g = svg.append("g").attr("transform","translate(200,50)");
 
 var bp=viz.bP()
@@ -194,7 +194,7 @@ function mouseout(d){
 		.select(".perc")
 	.text(function(d){ return d3.format("0.0%")(d.percent)})
 }
-d3.select(self.frameElement).style("height", "800px");
+d3.select(self.frameElement).style("height", "900px");
 </script>
 </body>
 </html>
