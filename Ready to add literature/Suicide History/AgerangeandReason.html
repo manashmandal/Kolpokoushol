@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.mainBars rect{
+  shape-rendering: auto;
+  fill-opacity: 0;
+  stroke-width: 0.5px;
+  stroke: rgb(0, 0, 0);
+  stroke-opacity: 0;
+}
+.subBars{
+	shape-rendering:crispEdges;
+}
+.edges{
+	stroke:none;
+	fill-opacity:0.5;
+}
+</style>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+<script>
+
+var data=[[' 13 to 18','abducted;threatened',1,1],
+         [' 13 to 18','academic problem',5,5],
+		 [' 13 to 18','bad result',1,1],
+		 [' 13 to 18','depression',2,2],
+		 [' 13 to 18','eve teasing',10,10],
+		 [' 13 to 18','failed in exam',1,1],
+		 [' 13 to 18','family feud',106,106],
+		 
+		 [' 13 to 18','forced marriage',1,1],
+         [' 13 to 18','frustration',1,1],
+		 [' 13 to 18','heated argument',1,1],
+		 [' 13 to 18','hsc results',1,1],
+		 [' 13 to 18','humiliation',3,3],
+		 [' 13 to 18','illness',1,1],
+		 [' 13 to 18','love affair',2,2],
+		 
+		 [' 13 to 18','marital problem',1,1],
+		 [' 13 to 18','mental disorder',1,1],
+         [' 13 to 18','mental illness',12,12],
+		 [' 13 to 18','mental problem',1,1],
+		 [' 13 to 18','non-acceptance',1,1],
+		 [' 13 to 18','personal problem',21,21],
+		 [' 13 to 18','physical illness',3,3],
+		 [' 13 to 18','quarrel with spouse',1,1],
+		 
+		 [' 13 to 18','raped',2,2],
+		 [' 13 to 18','sexually abused',4,4],
+         [' 13 to 18','something wrong at the employer\'s house',1,1],
+		 [' 13 to 18','stalking',2,2],
+		 [' 13 to 18','torture',6,6],
+         ['19 to 26','academic problem',2,2],
+         ['19 to 26','allegation',1,1],
+         ['19 to 26','argument',1,1],
+		 
+['19 to 26','call from someone',1,1],
+['19 to 26','disease',	1.0,1],
+['19 to 26','drug addict',	3.0,3],
+['19 to 26','drug addiction',	1.0,1],
+['19 to 26','family feud',	125.0,125],
+['19 to 26','fight',1.0,1],
+['19 to 26','financial problem',2.0,2],
+['19 to 26','frustration',2.0,2],
+['19 to 26','hsc results',1.0,1],
+['19 to 26','illness',	2.0,2],
+['19 to 26','marital problem',2.0,2],
+['19 to 26','medical reason',1.0,1],
+['19 to 26','mental disorder',3.0,3],
+['19 to 26','mental illness',15.0,15],
+['19 to 26','mental problem',1.0,1],
+['19 to 26','mobile clips',	1.0,1],
+['19 to 26','personal problem',	28.0,28],
+['19 to 26','physical illness',	3.0,3],
+['19 to 26','quarrel with husband',	1.0,1],
+['19 to 26','quarrel with spouse',20.0,20],
+['19 to 26','sexually abused',	1.0,1],
+['19 to 26','torture',	20,20],
+
+['27 to 35','allegation',1.0,1],
+['27 to 35','being arrested for alleged involvement with a robbery',1.0,1],
+['27 to 35','drug addiction',3.0,3],
+['27 to 35','family feud',	69.0,69],
+['27 to 35','fear',	1.0,1],
+['27 to 35','financial problem',3.0,3],
+['27 to 35','frustration',	1.0,1],
+['27 to 35','humiliation',	2.0,2],
+['27 to 35','illness',	3.0,3],
+['27 to 35','legal matter',	1.0,1],
+['27 to 35','marital problem',	1.0,1],
+['27 to 35','medical problems',	1.0,1],
+['27 to 35','mental disorder',	2.0,2],
+['27 to 35','mental illness',	8.0,8],
+['27 to 35','mental stress',	1.0,1],
+['27 to 35','not mentioned',	1.0,1],
+['27 to 35','personal problem',	7.0,7],
+['27 to 35','physical illness',	1.0,1],
+['27 to 35','financial problem',1.0,1],
+['27 to 35','quarrel with spouse',	4.0,4],
+['27 to 35','sexually abused',	1.0,1],
+['27 to 35','torture',	7.0,7],
+
+
+['36 to 50','allegation',	1.0,1],
+['36 to 50','death of son',	1.0,1],
+['36 to 50','debt burden',	1.0,1],
+['36 to 50','depression',	1.0,1],
+['36 to 50','drug addict',	1.0,1],
+['36 to 50','family feud',	35.0,35],
+['36 to 50','financial problem',4.0,4],
+['36 to 50','illness',	2.0,2],
+['36 to 50','losing election',	1.0,1],
+['36 to 50','marital problem',	1.0,1],
+['36 to 50','medical problems',	1.0,1],
+['36 to 50','medical reason',	1.0,1],
+['36 to 50','mental disorder',	1.0,1],
+['36 to 50','mental illness',	5.0,5],
+['36 to 50','personal problem',	3.0,3],
+['36 to 50','physical illness',	3.0,3],
+['36 to 50','psychological problem',1.0,1],
+['36 to 50','quarrel with spouse',	1.0,1],
+
+['51 to 80','business loss',1.0,1],
+['51 to 80','family feud',17.0,17],
+['51 to 80','financial problem',1.0,1],
+['51 to 80','illness',	2.0,2],
+['51 to 80','medical problems',	2.0,2],
+['51 to 80','mental disorder',	1.0,1],
+['51 to 80','personal problem',	2.0,2],
+['51 to 80','quarrel with spouse',	1.0,1],
+
+['8 to 12','allegation',	1.0,1],
+['8 to 12','eve teasing',	2.0,2],
+['8 to 12','failed in exam',	1.0,1],
+['8 to 12','family feud',	17.0,17],
+['8 to 12','imitating suicide',	1.0,1],
+['8 to 12','mental disorder',	1.0,1],
+['8 to 12','physical illness',	1.0,1],
+['8 to 12','family feud',1.0,1],
+['81 to 103','family feud',2.0,2]
+
+];
+
+var color ={'8 to 12':"#3366CC", '51 to 80':"#DC3912",  '13 to 18':"#FF9900", '36 to 50':"#109618", '27 to 35':"#990099", '27 to 35':"#0099C6", '19 to 26':"#fff111"};
+var svg = d3.select("body").append("svg").attr("width", 1250).attr("height", 1000);
+var g = svg.append("g").attr("transform","translate(200,50)");
+
+var bp=viz.bP()
+		.data(data)
+		.min(12)
+		.pad(1)
+		.height(800)
+		.width(500)
+		.barSize(50)
+		.fill(d=>color[d.primary]);
+			
+g.call(bp);
+
+g.selectAll(".mainBars")
+	.on("mouseover",mouseover)
+	.on("mouseout",mouseout)
+
+g.selectAll(".mainBars").append("text").attr("class","label")
+	.attr("x",d=>(d.part=="primary"? -30: 30))
+	.attr("x",d=>(d.part=="primary"? -30: 30))
+	.attr("y",d=>+6)
+	.text(d=>d.key)
+	.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+	
+g.selectAll(".mainBars").append("text").attr("class","perc")
+	//.attr("x",d=>(d.part=="primary"? -100: 200))
+	.attr("x", function(d, i) {
+                console.log(d.key);
+                if (d.part == "primary") return -100;
+                else {
+                    var offset = d.key.length;
+                    return 50 + 7 * offset;
+                }
+            })
+	.attr("y",d=>+6)
+	.text(function(d){ return d3.format("0.0%")(d.percent)})
+	.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+
+function mouseover(d){
+	bp.mouseover(d);
+	g.selectAll(".mainBars")
+	.select(".perc")
+	.text(function(d){ return d3.format("0.0%")(d.percent)})
+}
+function mouseout(d){
+	bp.mouseout(d);
+	g.selectAll(".mainBars")
+		.select(".perc")
+	.text(function(d){ return d3.format("0.0%")(d.percent)})
+}
+d3.select(self.frameElement).style("height", "900px");
+</script>
+</body>
+</html>
