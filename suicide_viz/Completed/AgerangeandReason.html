@@ -147,16 +147,16 @@ var data=[[' 13 to 18','abducted;threatened',1,1],
 ];
 
 var color ={'8 to 12':"#3366CC", '51 to 80':"#DC3912",  '13 to 18':"#FF9900", '36 to 50':"#109618", '27 to 35':"#990099", '27 to 35':"#0099C6", '19 to 26':"#fff111"};
-var svg = d3.select("body").append("svg").attr("width", 960).attr("height", 800);
+var svg = d3.select("body").append("svg").attr("width", 1250).attr("height", 900);
 var g = svg.append("g").attr("transform","translate(200,50)");
 
 var bp=viz.bP()
 		.data(data)
 		.min(12)
 		.pad(1)
-		.height(700)
+		.height(800)
 		.width(500)
-		.barSize(35)
+		.barSize(50)
 		.fill(d=>color[d.primary]);
 			
 g.call(bp);
@@ -173,7 +173,15 @@ g.selectAll(".mainBars").append("text").attr("class","label")
 	.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
 	
 g.selectAll(".mainBars").append("text").attr("class","perc")
-	.attr("x",d=>(d.part=="primary"? -100: 200))
+	//.attr("x",d=>(d.part=="primary"? -100: 200))
+	.attr("x", function(d, i) {
+                console.log(d.key);
+                if (d.part == "primary") return -100;
+                else {
+                    var offset = d.key.length;
+                    return 50 + 7 * offset;
+                }
+            })
 	.attr("y",d=>+6)
 	.text(function(d){ return d3.format("0.0%")(d.percent)})
 	.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
