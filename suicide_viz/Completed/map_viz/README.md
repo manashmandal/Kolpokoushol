@@ -1,1 +1,0 @@
-# Suicidal Map Visualization
