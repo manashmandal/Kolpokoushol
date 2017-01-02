@@ -23,7 +23,7 @@ Download this repository from [this link](https://github.com/manashmndl/Kolpokou
 
 Go to the root of the `app` folder [the one that has been extracted]. 
 
-Open a Command Window there and enter following code
+Open a Command Window there and enter the following code
 
 `npm install`
 
