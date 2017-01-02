@@ -11,13 +11,34 @@ Visualizations based on following collected data
 
 # How to run the application
 
-## Download & Install Dependencies
+## Downloading Node
 
 Download Node.js (v6.9.2 LTS) from [this link](https://nodejs.org/en/) and install it in your computer.
 
 ## Download the project file
 
-Download this repository from [this link]() and extract it.
+Download this repository from [this link](https://github.com/manashmndl/Kolpokoushol/archive/app.zip) and extract it.
 
+## Install project dependencies
 
+Go to the root of the `app` folder [the one that has been extracted]. 
 
+Open a Command Window there and enter following code
+
+`npm install`
+
+This will automatically download and install all the necessary packages.
+
+## Running the app
+
+Again at the root of the directory, run the following command.
+
+`node app.js`
+
+# Viewing the application
+
+Go to `http://localhost:4000` from your browser.
+
+# Demo
+
+![howto](http://i.imgur.com/4VK3wf3.gif)
