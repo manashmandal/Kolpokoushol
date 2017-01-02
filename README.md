@@ -42,3 +42,14 @@ Go to `http://localhost:4000` from your browser.
 # Demo
 
 ![howto](http://i.imgur.com/4VK3wf3.gif)
+
+# Troubleshooting
+
+### If no graph/visualization appears in your browser please do the following
+
+Visit these websites and solve the `CAPTCHA` if necessary.
+
+* [d3js](https://d3js.org/)
+* [d3plusjs](https://d3plus.org/)
+* [dcjs](https://dc-js.github.io/dc.js/)
+* [plotly](https://plot.ly/)
