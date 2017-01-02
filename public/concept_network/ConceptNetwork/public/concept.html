@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="name" content="Concept Map" />
+    <meta name="description" content="An abstract mapping for parameters. Works best if first tag is 'unique' among the tracklist, and the second tag applies to multiple tracks" />
+    <meta name="mintags" content="2" />
+    <meta name="maxtags" content="2" />
+    <title>Concept Network</title>
+
+    <style>
+	
+	h1{
+            padding-top: 30px;
+			font-size:40px;
+			text-align: center;
+			font-family: inherit;
+            font-weight: 500;
+            line-height: 1.1;
+            color: inherit;
+			margin-top: 20px;
+            margin-bottom: 10px;
+           /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+        }
+        svg {
+            font: 10px sans-serif;
+        }
+
+
+        text {
+            pointer-events: none;
+        }
+
+        .inner_node rect {
+            pointer-events: all;
+        }
+
+            .inner_node rect.highlight {
+                stroke: #315B7E;
+                stroke-width: 2px;
+                width: 310px;
+            }
+
+        .outer_node circle {
+            fill: #fff;
+            stroke: #FF5722;
+            stroke-width: 1.5px;
+            pointer-events: all;
+        }
+
+            .outer_node circle.highlight {
+                stroke: #315B7E;
+                stroke-width: 2px;
+            }
+
+        .link {
+            fill: none;
+            stroke: #4a3030;
+        }
+    </style>
+</head>
+<body>
+<!-- Page Content -->
+     
+                <h1>Bangladesh affairs through concept network</h1>
+ 
+
+    <!-- /.container -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script>
+
+        var data = [
+        ["Liberation War & Bangladesh", ['tribunal', 'verdict', 'charge', '1971', 'prosecution', 'people', 'witness', 'jamaat_e_islami', 'defence', 'jamaat', 'judge', 'member', 'government', 'sentence', 'war', 'bangladesh', 'nizami', 'case', 'country', 'liberation_war', 'kill']],
+        ["Political Issues", ['party', 'leader', 'hold', 'meeting', 'bnp', 'government', 'rally', 'committee', 'ershad', 'member', 'programme', 'president', 'dhaka_tribune', 'activist', 'capital', 'awami_league', 'movement', 'arrest', 'announce', 'demand', 'office', 'police']],
+        ["Bangladesh Election Environment", ['election', 'poll', 'ec', 'commission', 'election_commission', 'hold', 'candidate', 'city_corporation', 'voter', 'government', 'return_officer', 'nomination', 'demand', 'dhaka_tribune', 'city', 'awami_league', 'chief_election', 'conduct', 'contest', 'election_commissioner', 'bnp', 'polling_centre']],
+        ["University & Education", ['student', 'university', 'demand', 'examination', 'teacher', 'college', 'protest', 'hold', 'school', 'exam', 'result', 'campus', 'education', 'country', 'programme', 'demonstration', 'blockade', 'police', 'procession', 'dhaka_university']],
+        ["Politics & Law Enforcement during Election", ['police', 'bnp', 'party', 'activist', 'awami_league', 'local', 'arrest', 'area', 'leader', 'attack', 'people', 'election', 'clash', 'candidate', 'member', 'supporter', 'government', 'poll', 'hold', 'upazila', 'law_enforcer']],
+        ["Student Politics", ['student', 'university', 'police', 'incident', 'campus', 'case', 'teacher', 'dhaka_tribune', 'attack', 'fire', 'arrest', 'chhatra_league', 'activist', 'college', 'president', 'leader', 'hall']],
+        ["Transport System", ['body', 'railway', 'train', 'ticket', 'passenger', 'gas', 'police', 'petrobangla', 'recover', 'dhaka_tribune', 'dhaka', 'station', 'block', 'find', 'route', 'mueen', 'official', 'capital']],
+        ["Daily Incidents & Law Enforcement", ['bangladesh', 'government', 'local', 'police', 'people', 'india', 'area', 'use', 'attack', 'family', 'water', 'death', 'arrest', 'dhaka_tribune', 'member', 'child', 'victim']],
+        ["Election & Food Adulteration", ['centre', 'vote', 'voter', 'election', 'polling_centre', 'hold', 'formalin', 'country', 'official', 'test', 'area', 'bangladesh', 'fruit', 'proposal', 'dhaka_tribune', 'cast', 'laboratory', 'member', 'candidate', 'drug', 'sample']],
+        ["Law Court & Public", ['police', 'case', 'arrest', 'area', 'court', 'kill', 'people', 'later', 'dhaka_tribune', 'accuse', 'body', 'official', 'charge', 'victim', 'officer']],
+        ["Criminal Act & Law", ['arrest', 'court', 'government', 'member', 'police', 'dhaka', 'hefazat', 'area', 'price', 'dhaka_tribune', 'people', 'issue', 'case', 'official', 'detain']],
+        ["University Admission", ['university', 'student', 'police', 'court', 'dhaka_tribune', 'case', 'order', 'hold', 'admission_test', 'government', 'official', 'seat', 'law', 'charge', 'candidate', 'test', 'authority', 'jail']],
+        ["Government Issues", ['bangladesh', 'government', 'case', 'country', 'report', 'law', 'official', 'issue', 'information', 'member', 'accord', 'statement', 'dhaka', 'medium', 'court', 'send', 'order']]//,
+        ["Ministry & Cabinet Issues", ['government', 'ministry', 'country', 'new', 'bangladesh', 'draft', 'work', 'law', 'accord', 'cabinet', 'secretary', 'official', 'policy', 'act', 'report', 'member']],
+        ["Crime Government & Law Enforcer", ['government', 'arrest', 'rice', 'recover', 'country', 'bangladesh', 'use', 'find', 'case', 'police', 'capital', 'member', 'court', 'law_enforcer', 'rab', 'people']],
+        ["Governments & Environmental Issues", ['bangladesh', 'government', 'country', 'people', 'need', 'use', 'world', 'development', 'project', 'international', 'climate_change', 'report', 'programme', 'environment', 'water', 'global', 'support']],
+        ["Dhaka Metropolitan Police", ['people', 'police', 'country', 'area', 'government', 'capital', 'incident', 'minister', 'arrest', 'bangladesh', 'dhaka', 'dmp', 'dhaka_tribune', 'student', 'service']],
+        ["Road & Bridge Construction Projects", ['project', 'bus', 'area', 'government', 'bridge', 'people', 'local', 'work', 'vehicle', 'kill', 'police', 'construction', 'injure', 'dhaka_tribune', 'road', 'driver', 'official']],
+        ["Factory Worker & Accord", ['factory', 'worker', 'bangladesh', 'child', 'work', 'building', 'accord', 'report', 'company', 'victim', 'pay', 'government', 'find', 'authority', 'dhaka_tribune', 'country', 'owner']],
+        ["Bangladesh Border", ['bangladesh', 'meeting', 'india', 'government', 'border', 'bsf', 'indian', 'bgb', 'visit', 'send', 'area', 'official', 'country', 'hold', 'project', 'dhaka', 'chittagong', 'body', 'dhaka_tribune', 'member', 'local', 'police']],
+        ["Government Act with Neighbouring Countries", ['bangladesh', 'government', 'country', 'issue', 'meeting', 'us', 'dhaka', 'discuss', 'india', 'official', 'myanmar', 'visit', 'need', 'secretary', 'new', 'work', 'ministry', 'state', 'china']],
+        ["Election & BNP", ['hold', 'election', 'bnp', 'office', 'candidate', 'kill', 'government', 'police', 'country', 'dhaka', 'bnf', 'people', 'poll', 'work', 'member']],
+        ["Murder & Police Court Act", ['case', 'police', 'report', 'court', 'people', 'bangladesh', 'kill', 'murder', 'country', 'order', 'government', 'arrest', 'attack', 'official', 'dhaka_tribune', 'accuse', 'dhaka', 'area']],
+        ["Transportation Facilities in Bangladesh", ['passenger', 'dhaka', 'road', 'vehicle', 'airport', 'bus', 'highway', 'police', 'area', 'people', 'capital', 'dhaka_tribune', 'chittagong', 'leave', 'route', 'flight', 'country', 'charge', 'bangladesh']],
+        ["Bangladesh Government, India & BNP", ['government', 'bangladesh', 'people', 'country', 'official', 'dhaka_tribune', 'india', 'bnp', 'demand', 'hold', 'work', 'area', 'issue', 'student', 'leader']],
+        ["Police & Law Act about Homicide", ['case', 'police', 'kill', 'court', 'victim', 'body', 'son', 'accuse', 'arrest', 'charge', 'area', 'convict', 'later', 'verdict', 'girl', 'order']],
+        ["Political Issues & Outcome", ['case', 'court', 'order', 'office', 'police', 'party', 'judge', 'people', 'country', 'acc', 'hartal', 'leader', 'dhaka_tribune', 'official', 'bangladesh', 'government', 'khaleda']],
+        ["BNP & Awami League", ['government', 'bangladesh', 'country', 'people', 'party', 'prime_minister', 'bnp', 'election', 'awami_league', 'hold', 'meeting', 'hasina', 'minister', 'leader', 'prime_minister_sheikh_hasina', 'khaleda', 'president', 'want', 'issue', 'parliament', 'visit']],
+        ["Police & BGB Act", ['police', 'official', 'case', 'area', 'arrest', 'bgb', 'source', 'government', 'officer', 'member', 'chittagong', 'dhaka_tribune', 'recover', 'people', 'dhaka', 'force', 'meeting', 'drive']],
+        ["Government News", ['government', 'dhaka_tribune', 'police', 'bangladesh', 'official', 'dhaka', 'teacher', 'people', 'office', 'case', 'issue']],
+        ["Bangladesh People & Government", ['government', 'people', 'bangladesh', 'law', 'country', 'official', 'member', 'police', 'minister', 'meeting', 'accord', 'hold', 'act', 'bank', 'work', 'information']],
+        ["Incident Engage Police", ['police', 'bangladesh', 'arrest', 'official', 'dhaka_tribune', 'dhaka', 'hospital', 'people', 'find', 'capital', 'later', 'country', 'money', 'government', 'case', 'incident', 'victim']],
+        ["Medical Support after Incidents", ['hospital', 'police', 'doctor', 'patient', 'people', 'charge', 'dhaka_tribune', 'dr', 'case', 'bangladesh', 'officer', 'local', 'health', 'source', 'death', 'injure', 'die']],
+        ["Government Development Projects", ['government', 'project', 'land', 'city', 'local', 'dhaka_tribune', 'official', 'area', 'authority', 'road', 'work', 'plant', 'building', 'use', 'build', 'people', 'resident', 'set_up', 'new', 'capital', 'price', 'start']],
+        ["Anti Corruption Commision", ['commission', 'acc', 'official', 'land', 'verdict', 'case', 'chairman', 'member', 'area', 'government', 'jail', 'former', 'police', 'people', 'anti_corruption_commission', 'law', 'capital', 'send', 'office', 'accord']],
+        ["Court Act & Political Influence", ['court', 'case', 'accuse', 'order', 'charge', 'submit', 'dhaka', 'petition', 'case_file', 'bail', 'hearing', 'trial', 'charge_sheet', 'bnp', 'bnp_leader', 'arrest', 'high_court', 'witness', 'earlier', 'former']],
+        ["Rural Agriculture", ['farmer', 'area', 'water', 'local', 'land', 'people', 'river', 'village', 'sell', 'use', 'government', 'source', 'hectare', 'upazila', 'police']],
+        ["BNP & Political Act", ['hold', 'people', 'film', 'bnp', 'programme', 'bangladesh', 'government', 'teacher', 'dhaka', 'demand', 'country', 'rally', 'area', 'capital', 'time', 'youth']],
+        ["Workers Engage in Collision", ['bangladesh', 'worker', 'people', 'government', 'country', 'area', 'kill', 'dhaka', 'need', 'us', 'police', 'dhaka_tribune', 'work', 'project', 'injure', 'labour']],
+        ["Government Land Issues", ['government', 'land', 'project', 'official', 'country', 'people', 'bangladesh', 'use', 'area', 'work', 'dhaka_tribune', 'local', 'ministry', 'office', 'name']],
+        ["Workers in Factory", ['worker', 'government', 'meeting', 'factory', 'demand', 'country', 'owner', 'pay', 'bangladesh', 'dhaka_tribune', 'wage', 'official', 'bgmea', 'issue', 'accord', 'ask', 'office', 'decision']],
+        ["Banking in Bangladesh", ['bank', 'bangladesh', 'dhaka', 'official', 'rab', 'case', 'money', 'arrest', 'report', 'find', 'work', 'information', 'police', 'account', 'ask', 'dhaka_tribune', 'people', 'use', 'source']],
+        ["Transporation System", ['road', 'country', 'people', 'vehicle', 'government', 'highway', 'official', 'bridge', 'use', 'bangladesh', 'ministry', 'report', 'case', 'police', 'order', 'source', 'construction', 'river']],
+        ["Court & Justice", ['case', 'government', 'official', 'court', 'people', 'order', 'dhaka', 'police', 'place', 'accord', 'area', 'country', 'school', 'bangladesh', 'use', 'number']],
+        ["Fire accidents & Criminal Act", ['police', 'injure', 'area', 'people', 'incident', 'officer', 'fire', 'spot', 'attack', 'local', 'arrest', 'kill', 'hospital', 'member', 'rush', 'charge', 'leave', 'deceased', 'group', 'admit']],
+        ["Homicide & Criminal Act", ['people', 'police', 'kill', 'area', 'body', 'woman', 'local', 'village', 'deceased', 'spot', 'injure', 'charge', 'case', 'die', 'leave', 'later', 'officer', 'member', 'son']],
+        ["Bangladesh Government Budget Issues", ['government', 'crore', 'bangladesh', 'country', 'project', 'official', 'bank', 'budget', 'increase', 'proposal', 'accord', 'power', 'propose', 'india', 'total', 'fund', 'company', 'allocation', 'new']],
+        ["Government Project with World Bank", ['government', 'bangladesh', 'project', 'school', 'country', 'child', 'court', 'education', 'world_bank', 'issue', 'case', 'ask', 'crore', 'secretary', 'survey', 'order', 'report', 'accord']],
+        ["Awami League Government", ['country', 'bangladesh', 'people', 'hold', 'government', 'programme', 'dhaka', 'child', 'president', 'prime_minister_sheikh_hasina', 'woman', 'observe', 'bangabandhu', 'occasion', 'awami_league', 'capital', 'first', 'leader']],
+        ["Public Issues & Elections", ['people', 'poll_time', 'government', 'teacher', 'country', 'bangladesh', 'dhaka_tribune', 'demand', 'student', 'local', 'work', 'police']]
+        ];
+
+        // transform the data into a useful representation
+        // 1 is inner, 2, is outer
+
+        // need: inner, outer, links
+        //
+        // inner:
+        // links: { inner: outer: }
+
+
+        var outer = d3.map();
+        var inner = [];
+        var links = [];
+
+        var outerId = [0];
+
+        var step_incr_decr = 10;
+
+        var rect_background_color = "#bf360c";
+        var rect_text_color = "#FFFFFF";
+        var link_color = "#757575";
+        var node_border_color = link_color;
+        var node_radius = 5;
+        var node_highlight_color = "#757575";
+
+        data.forEach(function (d) {
+
+            if (d == null)
+                return;
+
+            i = { id: 'i' + inner.length, name: d[0], related_links: [] };
+            i.related_nodes = [i.id];
+            inner.push(i);
+
+            if (!Array.isArray(d[1]))
+                d[1] = [d[1]];
+
+            d[1].forEach(function (d1) {
+
+                o = outer.get(d1);
+
+                if (o == null) {
+                    o = { name: d1, id: 'o' + outerId[0], related_links: [] };
+                    o.related_nodes = [o.id];
+                    outerId[0] = outerId[0] + 1;
+
+                    outer.set(d1, o);
+                }
+
+                // create the links
+                l = { id: 'l-' + i.id + '-' + o.id, inner: i, outer: o }
+                links.push(l);
+
+                // and the relationships
+                i.related_nodes.push(o.id);
+                i.related_links.push(l.id);
+                o.related_nodes.push(i.id);
+                o.related_links.push(l.id);
+            });
+        });
+
+        data = {
+            inner: inner,
+            outer: outer.values(),
+            links: links
+        }
+
+        // sort the data -- TODO: have multiple sort options
+        outer = data.outer;
+        data.outer = Array(outer.length);
+
+
+        var i1 = 0;
+        var i2 = outer.length - 1;
+
+        for (var i = 0; i < data.outer.length; ++i) {
+            if (i % 2 == 1)
+                data.outer[i2--] = outer[i];
+            else
+                data.outer[i1++] = outer[i];
+        }
+
+        console.log(data.outer.reduce(function (a, b) { return a + b.related_links.length; }, 0) / data.outer.length);
+
+
+        // from d3 colorbrewer:
+        // This product includes color specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/).
+        var colors = ["#a50026", "#d73027", "#f46d43", "#fdae61", "#fee090", "#ffffbf", "#e0f3f8", "#abd9e9", "#74add1", "#4575b4", "#313695"]
+        var color = d3.scale.linear()
+            .domain([60, 220])
+            .range([colors.length - 1, 0])
+            .clamp(true);
+
+        var diameter = 1500;
+        var rect_width = 300;
+        var rect_height = 17;
+
+        var link_width = "1px";
+
+        var il = data.inner.length;
+        var ol = data.outer.length;
+
+        var inner_y = d3.scale.linear()
+            .domain([0, il])
+            .range([-(il * rect_height) / 2, (il * rect_height) / 2]);
+
+        mid = (data.outer.length / 2.0)
+        var outer_x = d3.scale.linear()
+            .domain([0, mid, mid, data.outer.length])
+            .range([15, 170, 190, 355]);
+
+        var outer_y = d3.scale.linear()
+            .domain([0, data.outer.length])
+            .range([0, diameter / 2 - 120]);
+
+
+        // setup positioning
+        data.outer = data.outer.map(function (d, i) {
+            d.x = outer_x(i);
+            d.y = diameter / 3;
+            return d;
+        });
+
+        data.inner = data.inner.map(function (d, i) {
+            d.x = -(rect_width / 2);
+            d.y = inner_y(i);
+            return d;
+        });
+
+
+        function get_color(name) {
+            var c = Math.round(color(name));
+            if (isNaN(c))
+                return '#dddddd';	// fallback color
+
+            return colors[c];
+        }
+
+        // Can't just use d3.svg.diagonal because one edge is in normal space, the
+        // other edge is in radial space. Since we can't just ask d3 to do projection
+        // of a single point, do it ourselves the same way d3 would do it.
+
+
+        function projectX(x) {
+            return ((x - 90) / 180 * Math.PI) - (Math.PI / 2);
+        }
+
+        var diagonal = d3.svg.diagonal()
+            .source(function (d) {
+                return {
+                    "x": d.outer.y * Math.cos(projectX(d.outer.x)),
+                    "y": -d.outer.y * Math.sin(projectX(d.outer.x))
+                };
+            })
+            .target(function (d) {
+                return {
+                    "x": d.inner.y + rect_height / 2,
+                    "y": d.outer.x > 180 ? d.inner.x : d.inner.x + rect_width
+                };
+            })
+            .projection(function (d) { return [d.y, d.x]; });
+
+
+        var svg = d3.select("body").append("svg")
+            .attr("width", diameter)
+            .attr("height", diameter)
+          .append("g")
+            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+
+        // links
+        var link = svg.append('g').attr('class', 'links').selectAll(".link")
+            .data(data.links)
+          .enter().append('path')
+            .attr('class', 'link')
+            .attr('id', function (d) { return d.id })
+            .attr("d", diagonal)
+            .attr('stroke', function (d) { return get_color(d.inner.name); })
+            .attr('stroke-width', link_width);
+
+        //Animate Node
+        function animate_node(id, transition_time, size){
+            d3.select("#" + id)
+              .transition()
+              .ease("elastic")
+            .duration(transition_time)
+            .attr("r", size);
+
+        }
+
+        function reset_node(id){
+            d3.select("#" + id)
+            .attr("r", node_radius);
+        }
+
+        function animate_rectangle(id, transition_time, _width) {
+            d3.select("#" + id)
+            .transition()
+            .ease("elastic")
+            .duration(transition_time)
+            .attr("width", _width);
+        }
+
+        function reset_rectangle(id) {
+            d3.select("#" + id)
+            .attr("width", rect_width);
+        }
+
+        // outer nodes
+
+        var onode = svg.append('g').selectAll(".outer_node")
+            .data(data.outer)
+          .enter().append("g")
+            .attr("class", "outer_node")
+            .attr("transform", function (d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+            //.on("mouseover", mouseover)
+            .on("mouseover", mouseover)
+            
+            .on("mouseout", mouseout);
+
+        onode.append("circle")
+            .attr('id', function (d) { return d.id })
+            .attr("r", node_radius);
+
+        onode.append("circle")
+            .attr('r', 20)
+            .attr('visibility', 'hidden');
+
+        onode.append("text")
+            .attr('id', function (d) { return d.id + '-txt'; })
+            .attr("dy", ".31em")
+            .attr("text-anchor", function (d) { return d.x < 180 ? "start" : "end"; })
+            .attr("transform", function (d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+            .text(function (d) { return d.name; });
+
+        // inner nodes
+
+        var inode = svg.append('g').selectAll(".inner_node")
+            .data(data.inner)
+          .enter().append("g")
+            .attr("class", "inner_node")
+            .attr("transform", function (d, i) { return "translate(" + d.x + "," + d.y + ")" })
+            //.on("mouseover",
+
+            //mouseover
+
+            .on("mouseover", mouseover)
+            .on("mouseout", mouseout);
+
+        inode.append('rect')
+            .attr('width', rect_width)
+            .attr('height', rect_height)
+            .attr('stroke-width', "3px")
+            .style('stroke', "white")
+            .attr('id', function (d) { return d.id; })
+            .attr('fill', function (d) { return rect_background_color; });
+
+        inode.append("text")
+            .attr('id', function (d) { return d.id + '-txt'; })
+            .attr('text-anchor', 'middle')
+            .attr('fill', 'white')
+            .attr('font-style', 'oblique')
+            .attr("transform", "translate(" + rect_width / 2 + ", " + rect_height * .75 + ")")
+            .text(function (d) { return d.name; });
+
+        // need to specify x/y/etc
+
+        d3.select(self.frameElement).style("height", diameter - 150 + "px");
+
+        function bar_incr_size(id, incr_size) {
+            var bar = d3.select("#" + id);
+            bar.attr("width", rect_width + incr_size + "px");
+        }
+
+        function reset_bar_size(id) {
+            var bar = d3.select("#" + id);
+            bar.attr("width", rect_width + "px");
+        }
+
+
+
+        function mouseover(d) {
+            //Change width of the bar
+            //bar_incr_size(d.id, step_incr_decr);
+
+            animate_node(d.id, 500, 6);
+            //animate_rectangle(d.id, 500, 10);
+
+            // bring to front
+            d3.selectAll('.links .link').sort(function (a, b) { return d.related_links.indexOf(a.id); });
+
+            for (var i = 0; i < d.related_nodes.length; i++) {
+                d3.select('#' + d.related_nodes[i]).classed('highlight', true);
+                d3.select('#' + d.related_nodes[i] + '-txt').attr("font-weight", 'bold')
+                ;
+            }
+
+            for (var i = 0; i < d.related_links.length; i++)
+                d3.select('#' + d.related_links[i]).attr('stroke-width', '5px')
+                .style("stroke", "#3f51b5")
+            ;
+        }
+
+        function mouseout(d) {
+            //reset_bar_size(d.id);
+
+            reset_node(d.id);
+            reset_rectangle(d.id);
+
+            for (var i = 0; i < d.related_nodes.length; i++) {
+                d3.select('#' + d.related_nodes[i]).classed('highlight', false);
+                d3.select('#' + d.related_nodes[i] + '-txt').attr("font-weight", 'normal');
+            }
+
+            for (var i = 0; i < d.related_links.length; i++)
+                d3.select('#' + d.related_links[i]).attr('stroke-width', link_width)
+               
+                .style("stroke", "#9e9e9e")
+            ;
+        }
+
+
+    </script>
+</body>
+</html>

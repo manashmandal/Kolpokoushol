@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            padding-top: 70px;
+            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+        }
+        
+        .mainBars rect {
+            shape-rendering: auto;
+            fill-opacity: 0;
+            stroke-width: 0.5px;
+            stroke: rgb(0, 0, 0);
+            stroke-opacity: 0;
+        }
+        
+        .subBars {
+            shape-rendering: crispEdges;
+        }
+        
+        .edges {
+            stroke: none;
+            fill-opacity: 0.5;
+        }
+        
+        .graph {
+            align-self: center;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1> Division-wise vechicle collisions in Bangladesh </h1>
+
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="col-sm-offset-1">
+            <svg> </svg>
+        </div>
+
+    </div>
+
+    <!-- /.container -->
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+    <script>
+       var data = [
+['Barisal','rickshaw',1,1],
+['Barisal','bus',7,7],
+['Chittagong','bus',14,14],
+['Chittagong','bus,bus',2,2],
+['Chittagong','microbus',1,1],
+['Chittagong','truck',4,4],
+['Dhaka','ambulance',1,1],
+['Dhaka','bus',24,24],
+['Dhaka','bus,bus',3,3],
+['Dhaka','bus,tempo',1,1],
+['Dhaka','bus,truck',1,1],
+['Dhaka','caravan,bus',1,1],
+['Dhaka','jeep,bus',1,1],
+['Dhaka','microbus',3,3],
+['Dhaka','rickshaw',3,3],
+['Dhaka','rickshaw,bus',3,3],
+['Dhaka','tempo,truck',1,1],
+['Dhaka','truck',7,7],
+['Khulna','bus',5,5],
+['Khulna','bus,rickshaw',1,1],
+['Khulna','bus,tempo',1,1],
+['Khulna','bus,truck',1,1],
+['Khulna','rickshaw',1,1],
+['Khulna','tempo',1,1],
+['Khulna','truck',1,1],
+['Mymensingh','bus',3,3],
+['Rajshahi','microbus',2,2],
+['Rajshahi','truck,bus',1,1],
+['Rajshahi','truck',1,1],
+['Rajshahi','bus',9,9],
+['Rajshahi','jeep,bus',1,1],
+['Rajshahi','rickshaw,bus',2,2],
+['Rajshahi','rickshaw',1,1],
+['Rangpur','bus',2,2],
+['Rangpur','bus,bus',1,1],
+['Rangpur','jeep,bus',2,2],
+['Rangpur','truck',1,1],
+['Sylhet','bus',2,2],
+['Sylhet','microbus',1.0,1 ],
+['Sylhet','rickshaw,bus',1,1 ],
+['Sylhet','truck',1,1]
+        ];
+        var color = {
+            Rangpur: "#DC3912",
+            Sylhet: "#990099",
+			Rajshahi: "#D81B60",
+			Khulna:"#3F51B5",
+			Dhaka:"#FF6D00",
+			Barisal:"#1A237E",
+			Chittagong:"#009688",
+			Mymensingh:"#DD2C00"
+			
+        };
+			
+
+        var svg = d3.select("svg").attr("width", 960).attr("height", 800);
+        var g = svg.append("g").attr("transform", "translate(200,50)");
+        var bp = viz.bP()
+            .data(data)
+            .min(12)
+            .pad(1)
+            .height(700)
+            .width(500)
+            .barSize(30)
+            .fill(d => color[d.primary]);
+        g.call(bp);
+        g.selectAll(".mainBars")
+            .on("mouseover", mouseover)
+            .on("mouseout", mouseout)
+        g.selectAll(".mainBars").append("text").attr("class", "label")
+            .attr("x", d => (d.part == "primary" ? -15 : 30))
+            .attr("x", d => (d.part == "primary" ? -15 : 30))
+            .attr("y", d => +6)
+            .text(d => d.key)
+            .attr("text-anchor", d => (d.part == "primary" ? "end" : "start"));
+        g.selectAll(".mainBars").append("text").attr("class", "perc")
+            //.attr("x", d => (d.part == "primary" ? -100 : 250))
+            .attr("x", function(d, i) {
+                console.log(d.key);
+                if (d.part == "primary") return -100;
+                else {
+                    var offset = d.key.length;
+                    return 50 + 6 * offset;
+                }
+            })
+            .attr("y", d => +6)
+            .text(function(d) {
+                return d3.format("0.0%")(d.percent)
+            })
+            .attr("text-anchor", d => (d.part == "primary" ? "end" : "start"));
+        function mouseover(d) {
+            bp.mouseover(d);
+            g.selectAll(".mainBars")
+                .select(".perc")
+                .text(function(d) {
+                    return d3.format("0.0%")(d.percent)
+                })
+        }
+        function mouseout(d) {
+            bp.mouseout(d);
+            g.selectAll(".mainBars")
+                .select(".perc")
+                .text(function(d) {
+                    return d3.format("0.0%")(d.percent)
+                })
+        }
+        d3.select(self.frameElement).style("height", "800px");
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Visualization</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF8">
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./css/dc.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="./css/mainstyles.css" />
+</head>
+
+<body>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="./js/d3.js"></script>
+    <script type="text/javascript" src="./js/crossfilter.js"></script>
+    <script type="text/javascript" src="./js/dc.js"></script>
+    <script type="text/javascript" src="./js/topojson.v1.min.js"></script>
+
+    <div id="main-container">
+        <h1>Suicide History Visualization in Bangladesh</h1>
+
+        <div id="chart-line-suicides"></div>
+        <div id="bd-chart">
+            <strong>Suicide Distributed by District(color: total accident)</strong>
+            <a class="reset" href="javascript:bdChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <span class="reset" style="display: none;"> | Current filter: <span class="filter"></span></span>
+            <div class="clearfix"></div>
+        </div>
+        <!--div class="viewer"  style="color:#0000FF"></div-->
+        <div class="visualcontrols">
+            <div id="chart-bar-profession"></div>
+            <div id="chart-ring-year"></div>
+            <div id="chart-ring-age-group"></div>
+            <div id="chart-ring-gender"></div>
+            <!--div id="chart-ring-methodology"></div-->
+            <div id="#chart-bubble-reason"></div>
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript" src="./js/drawMap.js"></script>
+
+    <script type="text/javascript">
+        var distDim;
+        var distSum;
+        var bdChart;
+
+        function print_filter(filter) {
+            var f = eval(filter);
+            if (typeof(f.length) != "undefined") {} else {}
+            if (typeof(f.top) != "undefined") {
+                f = f.top(Infinity);
+            } else {}
+            if (typeof(f.dimension) != "undefined") {
+                f = f.dimension(function(d) {
+                    return "";
+                }).top(Infinity);
+            } else {}
+            console.log(filter + "(" + f.length + ") = " + JSON.stringify(f).replace("[", "[\n\t").replace(/}\,/g, "},\n\t").replace("]", "\n]"));
+        }
+
+        function loadMapValues(filter) {
+            var f = eval(filter);
+            if (typeof(f.length) != "undefined") {} else {}
+            if (typeof(f.top) != "undefined") {
+                f = f.top(Infinity);
+            } else {}
+            if (typeof(f.dimension) != "undefined") {
+                f = f.dimension(function(d) {
+                    return "";
+                }).top(Infinity);
+            } else {}
+            //console.log(filter+"("+f.length+") = "+JSON.stringify(f).replace("[","[\n\t").replace(/}\,/g,"},\n\t").replace("]","\n]"));
+            var x = JSON.stringify(f).split("{\"key\":\"");
+            for (var i = 0; i < x.length; i++) {
+                z = x[i].split("\",\"value\":")
+                if (z.length == 2) {
+                    z[1] = z[1].split("}")[0];
+                    Districts[z[0]] = parseInt(z[1]);
+                }
+            }
+            redrawMap();
+        }
+
+        // 
+
+        d3.csv("./data/output.csv", function(data2) {
+            var dateFormat = d3.time.format('%Y-%m-%d');
+
+            data2.forEach(function(d) {
+                d.Date = dateFormat.parse(d.Date);
+                d.Year = d.Date.getFullYear();
+            });
+
+            var ndx = crossfilter(data2);
+
+            var dateDim = ndx.dimension(function(d) {
+                return d.Date;
+            });
+            var minDate = dateDim.bottom(1)[0].Date;
+            var maxDate = dateDim.top(1)[0].Date;
+            console.log(minDate);
+            console.log(maxDate);
+            //var ageDim = ndx.dimension(function(d){return +d.Age;});
+            var daySum = dateDim.group().reduceSum(function(d) {
+                return 1;
+            });
+
+
+            //print_filter("ageSum");
+            // var hits = dateDim.group().reduceSum(function(d) {return d.Age;});
+            var brush = d3.svg.brush();
+
+
+            var accidentBarChart = dc.barChart("#chart-line-suicides");
+            accidentBarChart
+                .width(800).height(100)
+                .dimension(dateDim)
+                .group(daySum)
+                .x(d3.time.scale().domain([minDate, maxDate]))
+                .yAxisLabel("Accidents")
+
+            .brushOn(true);
+
+
+
+
+            var distDim1 = ndx.dimension(function(d) {
+                return d.District;
+            });
+            var distSum1 = distDim1.group().reduceSum(function(d) {
+                return 1;
+            });
+
+            bdChart = dc.geoChoroplethChart("#bd-chart");
+            //var reasonBarChart   = dc.bubbleChart("#chart-bubble-reason");
+
+            d3.json("./data/bd.json", function(bd) {
+
+
+
+
+
+                bdChart.width(500)
+                    .height(700)
+                    .dimension(distDim1)
+                    .group(distSum1)
+
+                .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+                    .colorDomain([0, 200])
+                    .colorCalculator(function(d) {
+                        //console.log(d); 
+                        if (d) d = 32 * Math.log(d);
+
+                        return d ? bdChart.colors()(d) : '#ccc';
+                    })
+                    .overlayGeoJson(topojson.feature(bd, bd.objects.subunits).features, "subunits", function(d) {
+                        return d.id;
+                    })
+                    .projection(d3.geo.mercator().scale(scal).translate([-76.5 / 50.0 * scal, scal / 2 - scal / 55]));
+                // .colorAccessor(function(d){
+                // 	console.log(d.value);
+                // 	return d.value/100;
+                // });
+
+                bdChart.on("preRender", function(chart) {
+                    //console.log("hii");
+                    //chart.colorDomain(d3.extent(chart.data(), chart.valueAccessor()));
+                });
+                bdChart.on("preRedraw", function(chart) {
+                    //console.log("hi");
+                    //distDim2 = ndx.dimension(function(d) {return d.District;});
+                    //distSum2 = distDim2.group().reduceSum(function(d){return 1;});
+
+                    //console.log(distSum2.top(1)[0]);
+                    //distDim2.dispose();
+                    //distSum2.dispose();
+                    //console.log(d3.extent(chart.data(), chart.valueAccessor()));
+                    //	chart.colorDomain([0, distSum2.top(1)[0].value]);
+                });
+                /*	.title(function (d) {
+                		return "State: " + d.key + "\nTotal Amount Raised: " + numberFormat(d.value ? d.value : 0) + "M";
+                		});*/
+
+
+
+                dc.renderAll();
+            });
+
+            //dc.renderAll();
+
+
+
+        });
+    </script>
+
+
+</body>
+
+</html>

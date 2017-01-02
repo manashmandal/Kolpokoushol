@@ -1,0 +1,14 @@
+{
+    "name": "barchart_collision_viz",
+    "version": "1.0.0",
+    "description": "Barchart Node App",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Manash",
+    "license": "MIT",
+    "dependencies": {
+        "express": "latest"
+    }
+}
